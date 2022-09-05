@@ -421,7 +421,6 @@ def return_dataset(list, src_dir, output_dir, type='train', fd='mtcnn'):
         face_detector = MTCNN(margin=0, keep_all=False, select_largest=False, thresholds=[0.6, 0.7, 0.7],
                               min_face_size=60, factor=0.8, device=device).eval()
         print('device: ', device)
-        print('face_detector: ', face_detector)
     dataset = []
     for videoName, className in tqdm(list):
         class_dir = os.path.join(output_dir, type, str(className))
