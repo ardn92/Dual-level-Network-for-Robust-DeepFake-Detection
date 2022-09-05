@@ -416,7 +416,8 @@ def return_dataset(list, src_dir, output_dir, type='train', fd='mtcnn'):
     if fd == 'dlib':
         face_detector = dlib.cnn_face_detection_model_v1('./mmod_human_face_detector.dat')
     else:
-        device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+        # device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+        device='cuda:0'
         face_detector = MTCNN(margin=0, keep_all=False, select_largest=False, thresholds=[0.6, 0.7, 0.7],
                               min_face_size=60, factor=0.8, device=device).eval()
         print('device: ', device)
