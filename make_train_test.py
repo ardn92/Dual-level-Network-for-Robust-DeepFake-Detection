@@ -343,7 +343,7 @@ def get_boundingbox(face, width, height, scale=1.3, minsize=None):
     return x1, y1, size_bb
 
 
-def detect_face(frame, face_detector, type='dlib'):
+def detect_face(frame, face_detector, type='mtcnn'):
     if type == 'dlib':
         height, width = frame.shape[:2]
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
