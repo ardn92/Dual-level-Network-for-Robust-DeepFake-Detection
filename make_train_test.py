@@ -125,7 +125,8 @@ def return_ff_dataset(src_dir, type, c, control):
     return trainList, testList, valList
 
 
-def generate_ff(src_dir, output_dir, type='all', c='c23'):
+def generate_ff(src_dir, output_dir, type='all', c='40'):
+# def generate_ff(src_dir, output_dir, type='all', c='c23'):
     outputDir(output_dir)
 
     trainList = []
