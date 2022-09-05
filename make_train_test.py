@@ -8,7 +8,7 @@ import json
 import random
 from facenet_pytorch.models.mtcnn import MTCNN
 import numpy as np
-
+import torch
 from utils import tools
 
 default_types = ['Deepfakes', 'Face2Face', 'FaceSwap', 'NeuralTextures']
@@ -118,9 +118,9 @@ def open_json_read(json_name, src_dir, type, c, control=0):
 
 
 def return_ff_dataset(src_dir, type, c, control):
-    trainList = open_json_read('./train.json', src_dir, type, c, control)
-    testList = open_json_read('./test.json', src_dir, type, c, control)
-    valList = open_json_read('./val.json', src_dir, type, c, control)
+    trainList = open_json_read('./utils/train.json', src_dir, type, c, control)
+    testList = open_json_read('./utils/test.json', src_dir, type, c, control)
+    valList = open_json_read('./utils/val.json', src_dir, type, c, control)
 
     return trainList, testList, valList
 
@@ -207,7 +207,7 @@ def generate_celeb(src_dir, output_dir, split=10):
             f.write('\n'.join([','.join(line) for line in datas[i]]))
 
 
-def return_split(data_set: [], split=10):
+def return_split(data_set=[], split=10):
     print('splitting!')
     fake = []
     real = []
@@ -411,12 +411,13 @@ def return_dataset_o(list, src_dir, output_dir, type='train'):
     return dataset
 
 
-def return_dataset(list, src_dir, output_dir, type='train', fd='dlib'):
+def return_dataset(list, src_dir, output_dir, type='train', fd='mtcnn'):
     if fd == 'dlib':
         face_detector = dlib.cnn_face_detection_model_v1('./mmod_human_face_detector.dat')
     else:
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         face_detector = MTCNN(margin=0, keep_all=False, select_largest=False, thresholds=[0.6, 0.7, 0.7],
-                              min_face_size=60, factor=0.8, device='cuda').eval()
+                              min_face_size=60, factor=0.8, device=device).eval()
     dataset = []
     for videoName, className in tqdm(list):
         class_dir = os.path.join(output_dir, type, str(className))
@@ -466,6 +467,6 @@ if __name__ == '__main__':
     else:
         output = args.output_dir
 
-    # generate_celeb(args.src_dir, output, args.split)
+    generate_celeb(args.src_dir, output, args.split)
     # generate_ff(args.src_dir, args.output_dir, args.type)
-    generate_dfdc_train_only(args.src_dir, output, args.split, 3, 5)
+    # generate_dfdc_train_only(args.src_dir, output, args.split, 3, 5)
