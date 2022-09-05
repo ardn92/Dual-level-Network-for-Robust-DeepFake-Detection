@@ -467,6 +467,6 @@ if __name__ == '__main__':
     else:
         output = args.output_dir
 
-    generate_celeb(args.src_dir, output, args.split)
-    # generate_ff(args.src_dir, args.output_dir, args.type)
+    # generate_celeb(args.src_dir, output, args.split)
+    generate_ff(args.src_dir, args.output_dir, args.type)
     # generate_dfdc_train_only(args.src_dir, output, args.split, 3, 5)
