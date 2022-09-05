@@ -125,8 +125,8 @@ def return_ff_dataset(src_dir, type, c, control):
     return trainList, testList, valList
 
 
-def generate_ff(src_dir, output_dir, type='all', c='40'):
-# def generate_ff(src_dir, output_dir, type='all', c='c23'):
+# def generate_ff(src_dir, output_dir, type='all', c='40'):
+def generate_ff(src_dir, output_dir, type='all', c='c23'):
     outputDir(output_dir)
 
     trainList = []
@@ -416,7 +416,7 @@ def return_dataset(list, src_dir, output_dir, type='train', fd='mtcnn'):
     if fd == 'dlib':
         face_detector = dlib.cnn_face_detection_model_v1('./mmod_human_face_detector.dat')
     else:
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
         face_detector = MTCNN(margin=0, keep_all=False, select_largest=False, thresholds=[0.6, 0.7, 0.7],
                               min_face_size=60, factor=0.8, device=device).eval()
     dataset = []
@@ -454,7 +454,7 @@ def parse_args():
     parser.add_argument('-i', '--src_dir', help='path to datasets', default='')
     parser.add_argument('-o', '--output_dir', help='path to output', default='')
     parser.add_argument('-t', '--type', help='used for FF++', default='all')
-    parser.add_argument('-g', '--gpu', default='7')
+    parser.add_argument('-g', '--gpu', default='0')
     parser.add_argument('-s', '--split', help='the split of pos and neg samples', type=int, default=60)
     args = parser.parse_args()
     return args
